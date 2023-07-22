@@ -9,9 +9,8 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       routerConfig: router,
       title: 'Translator App',
-      theme: ThemeData(
-        primarySwatch: Colors.indigo,
-        primaryColor: Colors.indigo,
+      theme: ThemeData.dark(
+      
       ),
     );
   }

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:translator_app/ui/widgets/bottom_nav_bar.dart';
 
 class HistoryScreen extends StatefulWidget {
   const HistoryScreen({super.key});
