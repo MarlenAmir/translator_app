@@ -1,7 +1,5 @@
 import 'package:go_router/go_router.dart';
-import 'package:translator_app/ui/screens/history_screen.dart';
-import 'package:translator_app/ui/screens/homescreen.dart';
-import 'package:translator_app/ui/screens/settings_screen.dart';
+import 'package:translator_app/ui/screens/view.dart';
 import 'package:translator_app/ui/widgets/bottom_nav_bar.dart';
 
 GoRouter router =
@@ -12,8 +10,8 @@ GoRouter router =
       builder: (context, state) =>  HomeScreen(),
     ),
     GoRoute(
-      path: 'history',
-      builder: (context, state) =>  HistoryScreen(),
+      path: 'favorites',
+      builder: (context, state) =>  FavoritesScreen(),
     ),
     GoRoute(
       path: 'settings',

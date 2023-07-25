@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:dio/dio.dart';
 import 'package:translator_app/ui/widgets/view.dart';
 import 'package:translator_app/services/translator_service.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -16,9 +17,44 @@ class _HomeScreenState extends State<HomeScreen> {
   String _translatedText = '';
   String _detectedLanguage = '';
 
-  TranslatorService _translatorService = TranslatorService(
-    'AIzaSyDpu4nv9KNpmPSSAHRk-yJ7sbYDMb5vy4o', // Replace with your Google Cloud Translation API key
+  void showSnackbar(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        duration: Duration(seconds: 2),
+      ),
+    );
+  }
+
+  final TranslatorService _translatorService = TranslatorService(
+    'AIzaSyDpu4nv9KNpmPSSAHRk-yJ7sbYDMb5vy4o', // Api key
   );
+
+  List<Map<String, dynamic>> _items = [];
+
+  final favorite_translations = Hive.box('favorite_translations');
+
+  Future<void> createItem(Map<String, dynamic> newItem) async {
+    await favorite_translations.add(newItem);
+    _refreshItems();
+    print('amount data is ${favorite_translations.length}');
+  }
+
+  List<Map<String, dynamic>> _refreshItems() {
+    final data = favorite_translations.keys.map((key) {
+      final item = favorite_translations.get(key);
+      return {
+        "key": key,
+        "inputText": item["inputText"],
+        "translatedText": item["translatedText"]
+      };
+    }).toList();
+    setState(() {
+      _items = data.reversed.toList();
+    });
+    return data;
+    
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +87,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 });
               },
             ),
-            const SizedBox(height: 20),
+            SizedBox(height: 20),
             ElevatedButton(
               onPressed: () async {
                 String inputText = _textEditingController.text;
@@ -66,16 +102,30 @@ class _HomeScreenState extends State<HomeScreen> {
                       translationResult['detectedLanguage'] ?? '';
                 });
               },
-              child: const Text('Перевести', style: TextStyle(fontSize: 18)),
+              child: Text('Перевести', style: TextStyle(fontSize: 18)),
             ),
-            const SizedBox(height: 30),
-            const Text(
+            SizedBox(height: 30),
+            Text(
               'Перевод:',
               style: TextStyle(color: Colors.white, fontSize: 16),
             ),
-            const SizedBox(height: 20),
+            SizedBox(height: 20),
             TranslatedTextWidget(translatedText: _translatedText),
-            const SizedBox(height: 10),
+            SizedBox(height: 10),
+            ElevatedButton(
+              onPressed: () async {
+                String inputText = _textEditingController.text;
+                if (inputText.isNotEmpty && _translatedText.isNotEmpty) {
+                  await createItem({
+                    "inputText": inputText,
+                    "translatedText": _translatedText,
+                  });
+                }
+                showSnackbar('Added to Favorites');
+              },
+              child:
+                  Text('Добавить в избранные', style: TextStyle(fontSize: 18)),
+            ),
           ],
         ),
       ),
