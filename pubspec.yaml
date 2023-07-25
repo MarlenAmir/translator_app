@@ -38,6 +38,7 @@ dependencies:
   go_router: ^10.0.0
   google_nav_bar: ^5.0.6
   dio: ^5.3.0
+  google_cloud_translation: ^0.0.3
 
 dev_dependencies:
   flutter_test:

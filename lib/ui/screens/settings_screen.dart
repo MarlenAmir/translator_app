@@ -13,7 +13,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('Settings')),
-      body: Center(child: Text('This is the Settings screen'),),
+      body: const Center(child: Text('This is the Settings screen'),),
     );
   }
 }

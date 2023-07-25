@@ -1,38 +1,36 @@
 import 'package:dio/dio.dart';
 
-class TranslationService {
-  final String apiKey;
-  final Dio _dio;
+class TranslatorService {
+  final Dio _dio = Dio();
+  final String _apiKey;
 
-  TranslationService(this.apiKey) : _dio = Dio();
+  TranslatorService(this._apiKey);
 
-  Future<String> translateWord(String text, String targetLanguage) async {
-    final url = 'https://translation.googleapis.com/language/translate/v2';
-
+  Future<Map<String, dynamic>> translateText(String inputText, String targetLanguage) async {
     try {
-      final response = await _dio.post(url, data: {
-        'q': text,
-        'target': targetLanguage,
-        'key': apiKey,
-      });
+      final response = await _dio.post(
+        'https://translation.googleapis.com/language/translate/v2',
+        queryParameters: {'key': _apiKey},
+        data: {'q': inputText, 'target': targetLanguage},
+      );
 
       if (response.statusCode == 200) {
-        final responseData = response.data;
-        if (responseData['data'] != null &&
-            responseData['data']['translations'] != null &&
-            responseData['data']['translations'][0] != null &&
-            responseData['data']['translations'][0]['translatedText'] != null) {
-          String translatedText = responseData['data']['translations'][0]['translatedText'];
-          return translatedText;
-        } else {
-          throw Exception('Invalid API response. Translation not available.');
-        }
+        Map<String, dynamic> data = response.data;
+        return {
+          'translatedText': data['data']['translations'][0]['translatedText'],
+          'detectedLanguage': data['data']['translations'][0]['detectedSourceLanguage'],
+        };
       } else {
-        throw Exception('Error occurred during the API request.');
+        // Handle error response here
+        print('Translation API error: ${response.statusCode}');
+        return {};
       }
-    } catch (e) {
-      throw Exception('Error while executing the API request: $e');
+    } catch (error) {
+      // Handle Dio error here
+      print('Dio error: $error');
+      return {};
     }
   }
 }
+
 

@@ -13,16 +13,16 @@ class BottomNavBar extends StatefulWidget {
 class _BottomNavBarState extends State<BottomNavBar> {
   int _selectedIndex = 0;
 
-  static final List<Widget> _NavScreens = <Widget>[
-    HomeScreen(),
-    HistoryScreen(),
-    SettingsScreen(),
+  static final List<Widget> _navScreens = <Widget>[
+    const HomeScreen(),
+    const HistoryScreen(),
+    const SettingsScreen(),
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(child: _NavScreens.elementAt(_selectedIndex),),
+      body: Center(child: _navScreens.elementAt(_selectedIndex),),
       bottomNavigationBar: Container(
         color: Colors.black,
         child: Padding(

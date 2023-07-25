@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:dio/dio.dart';
+import 'package:translator_app/ui/widgets/view.dart';
 import 'package:translator_app/services/translator_service.dart';
 
-class  HomeScreen extends StatefulWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
   @override
@@ -9,69 +11,74 @@ class  HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final TextEditingController _textEditingController = TextEditingController();
+  String _selectedLanguageCode = 'en';
+  String _translatedText = '';
+  String _detectedLanguage = '';
 
-    final TranslationService translationService = TranslationService('AIzaSyDmf-zlsUHhh_9kgfAfXfsUdGqWmiiYSQU');
-
-
-  String originalText = '';
-  String translatedText = '';
-  String targetLanguage = 'en'; // По умолчанию целевой язык - английский
-
-  void _translateWord() async {
-    try {
-      String translation = await translationService.translateWord(originalText, targetLanguage);
-      setState(() {
-        translatedText = translation;
-      });
-    } catch (error) {
-      print('Произошла ошибка при переводе: $error');
-    }
-  }
+  TranslatorService _translatorService = TranslatorService(
+    'AIzaSyDpu4nv9KNpmPSSAHRk-yJ7sbYDMb5vy4o', // Replace with your Google Cloud Translation API key
+  );
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Перевод слова')),
+      appBar: AppBar(
+        title: Center(child: Text('Translate API')),
+      ),
       body: Padding(
-        padding: EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
+        padding: const EdgeInsets.all(20),
+        child: ListView(
           children: [
+            DetectedLanguageText(detectedLanguage: _detectedLanguage),
+            const SizedBox(height: 20),
             TextField(
-              onChanged: (text) {
+              controller: _textEditingController,
+              maxLines: 5,
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: "Введите текст для перевода",
+              ),
+            ),
+            const SizedBox(height: 20),
+            LanguageDropdown(
+              selectedLanguageCode: _selectedLanguageCode,
+              onChanged: (String? newValue) {
+                // Change to nullable String
                 setState(() {
-                  originalText = text;
+                  _selectedLanguageCode =
+                      newValue ?? 'en'; // Provide a default value if null
                 });
               },
-              decoration: InputDecoration(labelText: 'Введите слово для перевода'),
             ),
-            SizedBox(height: 16.0),
-            DropdownButtonFormField<String>(
-              value: targetLanguage,
-              items: [
-                DropdownMenuItem(child: Text('Английский'), value: 'en'),
-                DropdownMenuItem(child: Text('Испанский'), value: 'es'),
-                // Добавьте другие языки в списке
-              ],
-              onChanged: (value) {
-                setState(() {
-                  targetLanguage = value!;
-                });
-              },
-              decoration: InputDecoration(labelText: 'Выберите целевой язык'),
-            ),
-            SizedBox(height: 16.0),
+            const SizedBox(height: 20),
             ElevatedButton(
-              onPressed: _translateWord,
-              child: Text('Перевести'),
+              onPressed: () async {
+                String inputText = _textEditingController.text;
+                Map<String, dynamic> translationResult =
+                    await _translatorService.translateText(
+                  inputText,
+                  _selectedLanguageCode,
+                );
+                setState(() {
+                  _translatedText = translationResult['translatedText'] ?? '';
+                  _detectedLanguage =
+                      translationResult['detectedLanguage'] ?? '';
+                });
+              },
+              child: const Text('Перевести', style: TextStyle(fontSize: 18)),
             ),
-            SizedBox(height: 16.0),
-            Text('Перевод: $translatedText'),
+            const SizedBox(height: 30),
+            const Text(
+              'Перевод:',
+              style: TextStyle(color: Colors.white, fontSize: 16),
+            ),
+            const SizedBox(height: 20),
+            TranslatedTextWidget(translatedText: _translatedText),
+            const SizedBox(height: 10),
           ],
         ),
       ),
     );
   }
 }
-
-

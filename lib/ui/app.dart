@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:translator_app/routes/router.dart';
 
 class MyApp extends StatelessWidget {
-  
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
@@ -10,7 +9,6 @@ class MyApp extends StatelessWidget {
       routerConfig: router,
       title: 'Translator App',
       theme: ThemeData.dark(
-      
       ),
     );
   }
