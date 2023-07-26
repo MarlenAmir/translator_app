@@ -1,6 +1,4 @@
-
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 import '../widgets/favorite_item_widget.dart';
@@ -8,11 +6,20 @@ import '../widgets/favorite_item_widget.dart';
 class FavoritesScreen extends StatelessWidget {
   const FavoritesScreen({Key? key});
 
+  void _deleteItem(int key) {
+    final box = Hive.box('favorite_translations');
+    box.delete(key);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Избранные переводы'),
+        title: const Center(
+          child: Text(
+            'Избранные переводы',
+          ),
+        ),
       ),
       body: ValueListenableBuilder(
         valueListenable: Hive.box('favorite_translations').listenable(),
@@ -34,6 +41,8 @@ class FavoritesScreen extends StatelessWidget {
               return FavoriteItemWidget(
                 inputText: item["inputText"],
                 translatedText: item["translatedText"],
+                onDelete: () =>
+                    _deleteItem(item["key"] as int), // Приведение типа здесь
               );
             },
           );

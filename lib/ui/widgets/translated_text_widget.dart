@@ -27,7 +27,6 @@ class TranslatedTextWidget extends StatelessWidget {
             child: Text(
               translatedText,
               style: const TextStyle(
-                color: Colors.white,
                 fontSize: 16,
               ),
             ),

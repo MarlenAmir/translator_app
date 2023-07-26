@@ -10,11 +10,10 @@ class DetectedLanguageText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(left: 10),
+      margin: const EdgeInsets.only(left: 10),
       child: Text(
         'Определить язык: $detectedLanguage',
         style: const TextStyle(
-          color: Colors.white,
           fontSize: 16,
         ),
       ),

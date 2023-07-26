@@ -15,7 +15,7 @@ class LanguageDropdown extends StatelessWidget {
       children: [
         const Text(
           'Выберите язык:',
-          style: TextStyle(fontSize: 16, color: Colors.white),
+          style: TextStyle(fontSize: 16),
         ),
         DropdownButton<String>(
           value: selectedLanguageCode,
