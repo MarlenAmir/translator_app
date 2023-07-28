@@ -1,10 +1,8 @@
 {
-
     "translate": "Перевести",
     "addToFavorites" : "Добавить в избранные",
     "detectLanguage" : "Определить язык",
     "translatedText" : "Переведенный текст",
     "favorites" : "Избранные",
     "settings" : "Настройки"
-    
 }

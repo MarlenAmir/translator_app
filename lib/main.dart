@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 
 void main() async {
   await Hive.initFlutter();
-  await Hive.openBox('favorite_translations');
+  await Hive.openBox('favorite_translations'); //инициализация Hive local storage
   runApp(ChangeNotifierProvider(
     create: (context) => ThemeProvider(),
     child: MyApp(),

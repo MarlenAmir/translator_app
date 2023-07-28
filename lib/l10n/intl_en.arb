@@ -1,5 +1,4 @@
 {
-
     "translate": "Translate",
     "addToFavorites" : "Add to Favorites",
     "detectLanguage" : "Detect a language",
@@ -7,6 +6,4 @@
     "favorites" : "Favorites",
     "settings" : "Settings"
 
-
-    
 }

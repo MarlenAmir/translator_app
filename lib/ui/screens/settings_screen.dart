@@ -28,7 +28,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             Switch(
               onChanged: (value) {
                 setState(() {
-                  themeProvider.toggleTheme();
+                  themeProvider.toggleTheme(); // Вызываем метод для переключения темы
                 });
               },
               value: !themeProvider.isLightTheme,

@@ -12,7 +12,9 @@ class MyApp extends StatelessWidget {
     final themeProvider = Provider.of<ThemeProvider>(context);
     final appTheme = themeProvider.isLightTheme ? lightTheme : darkTheme;
     return MaterialApp.router(
-      locale: const Locale("ru"),  
+      // локаль для приложения (русский язык)
+      locale: const Locale("ru"),
+      // локализация для поддержки многоязычности
       localizationsDelegates: const [
         S.delegate,
         GlobalMaterialLocalizations.delegate,

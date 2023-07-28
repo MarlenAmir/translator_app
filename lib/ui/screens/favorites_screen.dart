@@ -6,7 +6,7 @@ import '../widgets/favorite_item_widget.dart';
 
 class FavoritesScreen extends StatelessWidget {
   const FavoritesScreen({Key? key});
-
+// Метод для удаления элемента из базы данных
   void _deleteItem(int key) {
     final box = Hive.box('favorite_translations');
     box.delete(key);
@@ -43,7 +43,7 @@ class FavoritesScreen extends StatelessWidget {
                 inputText: item["inputText"],
                 translatedText: item["translatedText"],
                 onDelete: () =>
-                    _deleteItem(item["key"] as int), // Приведение типа здесь
+                    _deleteItem(item["key"] as int), 
               );
             },
           );

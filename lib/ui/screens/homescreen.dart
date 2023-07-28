@@ -14,7 +14,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  
   final TextEditingController _textEditingController = TextEditingController();
   String _selectedLanguageCode = 'en';
   String _translatedText = '';
@@ -24,13 +23,16 @@ class _HomeScreenState extends State<HomeScreen> {
     'AIzaSyDpu4nv9KNpmPSSAHRk-yJ7sbYDMb5vy4o', // Api key
   );
 
-  final favoriteTranslations = Hive.box('favorite_translations');
+  final favoriteTranslations = Hive.box(
+      'favorite_translations'); // Бокс для хранения избранных переводов
 
   Future<void> createItem(Map<String, dynamic> newItem) async {
+    // Метод для добавления элемента в базу данных
     await favoriteTranslations.add(newItem);
     _refreshItems();
   }
 
+// метод для обновления списка элементов с определенными полями
   List<Map<String, dynamic>> _refreshItems() {
     final data = favoriteTranslations.keys.map((key) {
       final item = favoriteTranslations.get(key);
@@ -73,8 +75,7 @@ class _HomeScreenState extends State<HomeScreen> {
               selectedLanguageCode: _selectedLanguageCode,
               onChanged: (String? newValue) {
                 setState(() {
-                  _selectedLanguageCode =
-                      newValue ?? 'en'; 
+                  _selectedLanguageCode = newValue ?? 'en';
                 });
               },
             ),
@@ -97,7 +98,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   style: const TextStyle(fontSize: 18, color: Colors.white)),
             ),
             const SizedBox(height: 30),
-            
             const SizedBox(height: 20),
             TranslatedTextWidget(translatedText: _translatedText),
             const SizedBox(height: 10),
@@ -112,7 +112,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 }
                 SnackbarHelper.showSnackbar(context, 'Added to Favorites');
               },
-              child:  Text(S.of(context).addToFavorites,
+              child: Text(S.of(context).addToFavorites,
                   style: const TextStyle(fontSize: 18, color: Colors.white)),
             ),
           ],
