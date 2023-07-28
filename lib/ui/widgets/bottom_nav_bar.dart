@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:translator_app/ui/screens/view.dart';
 
-
 class BottomNavBar extends StatefulWidget {
   const BottomNavBar({super.key});
 
@@ -15,14 +14,16 @@ class _BottomNavBarState extends State<BottomNavBar> {
 
   static final List<Widget> _navScreens = <Widget>[
     const HomeScreen(),
-     FavoritesScreen(),
+    const FavoritesScreen(),
     const SettingsScreen(),
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(child: _navScreens.elementAt(_selectedIndex),),
+      body: Center(
+        child: _navScreens.elementAt(_selectedIndex),
+      ),
       bottomNavigationBar: Container(
         color: Colors.black,
         child: Padding(
@@ -39,9 +40,9 @@ class _BottomNavBarState extends State<BottomNavBar> {
               GButton(icon: Icons.settings, text: 'Настройки'),
             ],
             selectedIndex: _selectedIndex,
-            onTabChange: (index){
+            onTabChange: (index) {
               setState(() {
-                _selectedIndex = index;    
+                _selectedIndex = index;
               });
             },
           ),

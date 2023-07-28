@@ -12,7 +12,7 @@ class TranslatedTextWidget extends StatelessWidget {
       children: [
         Text(
           'Переведенный язык:',
-          style: Theme.of(context).textTheme.subtitle1,
+          style: Theme.of(context).textTheme.titleMedium,
         ),
         const SizedBox(height: 20),
         Container(

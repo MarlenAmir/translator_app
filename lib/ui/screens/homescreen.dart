@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:translator_app/generated/l10n.dart';
 import 'package:translator_app/ui/widgets/view.dart';
 import 'package:translator_app/services/translator_service.dart';
 import 'package:hive/hive.dart';
@@ -13,6 +14,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  
   final TextEditingController _textEditingController = TextEditingController();
   String _selectedLanguageCode = 'en';
   String _translatedText = '';
@@ -70,10 +72,9 @@ class _HomeScreenState extends State<HomeScreen> {
             LanguageDropdown(
               selectedLanguageCode: _selectedLanguageCode,
               onChanged: (String? newValue) {
-                // Change to nullable String
                 setState(() {
                   _selectedLanguageCode =
-                      newValue ?? 'en'; // Provide a default value if null
+                      newValue ?? 'en'; 
                 });
               },
             ),
@@ -92,14 +93,11 @@ class _HomeScreenState extends State<HomeScreen> {
                       translationResult['detectedLanguage'] ?? '';
                 });
               },
-              child: const Text('Перевести',
-                  style: TextStyle(fontSize: 18, color: Colors.white)),
+              child: Text(S.of(context).translate,
+                  style: const TextStyle(fontSize: 18, color: Colors.white)),
             ),
             const SizedBox(height: 30),
-            const Text(
-              'Перевод:',
-              style: TextStyle(fontSize: 16),
-            ),
+            
             const SizedBox(height: 20),
             TranslatedTextWidget(translatedText: _translatedText),
             const SizedBox(height: 10),
@@ -114,8 +112,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 }
                 SnackbarHelper.showSnackbar(context, 'Added to Favorites');
               },
-              child: const Text('Добавить в избранные',
-                  style: TextStyle(fontSize: 18, color: Colors.white)),
+              child:  Text(S.of(context).addToFavorites,
+                  style: const TextStyle(fontSize: 18, color: Colors.white)),
             ),
           ],
         ),

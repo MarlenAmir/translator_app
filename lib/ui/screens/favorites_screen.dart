@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:translator_app/generated/l10n.dart';
 
 import '../widgets/favorite_item_widget.dart';
 
@@ -15,9 +16,9 @@ class FavoritesScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Center(
+        title:  Center(
           child: Text(
-            'Избранные переводы',
+            S.of(context).favorites,
           ),
         ),
       ),
